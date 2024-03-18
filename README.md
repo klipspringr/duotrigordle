@@ -1,4 +1,13 @@
-# Instructions
+This repo contains two Go programs:
+
+- `duotrigordle-all` suggests a first guess for Duotrigordle which maximises the expected number of _solvable_ boards
+- `duotrigordle-specific` reports _solvable_ boards for a given sequence of one or more guesses
+
+A board is _solvable_ if there is only one remaining possible guess.
+
+Guess responses are colour-coded with ANSI terminal codes.
+
+## Instructions
 
 To build:
 
@@ -6,23 +15,19 @@ To build:
 go build -o . ./...
 ```
 
-To test a given sequence of guesses:
-
-```
-./duotrigordle-specific SOARE UNTIL
-```
-
-Outputs responses which have one solution and summary statistics.
-
-To search for the best starting guess:
+To run:
 
 ```
 ./duotrigordle-all
 ```
 
-# Results
+```
+./duotrigordle-specific guess [guess...]
+```
 
-## Best starting guess
+## Results
+
+### Best first guess
 
 ```
 $ ./duotrigordle-all
@@ -32,6 +37,8 @@ Best guess: BURET
 15.6% chance of solvable board on grid of 32
 899.2 average possible solutions per board
 ```
+
+### Specific guess sequences
 
 ```
 $ ./duotrigordle-specific buret
@@ -56,10 +63,8 @@ BURET TURBO
 899.2 average possible solutions per board
 ```
 
-## Specific guess sequences
-
 ```
-$ ./duotrigordle-specific SOARE UNTIL
+$ ./duotrigordle-specific soare until
 Dictionaries: 14855 valid guesses, 2653 solutions
 Guesses: [SOARE UNTIL]
 SOARE UNTIL AFOUL
@@ -71,7 +76,7 @@ SOARE UNTIL WHORL
 ```
 
 ```
-$ ./duotrigordle-specific FILES PRANG DUTCH
+$ ./duotrigordle-specific files prang dutch
 Dictionaries: 14855 valid guesses, 2653 solutions
 Guesses: [FILES PRANG DUTCH]
 FILES PRANG DUTCH ACTED
