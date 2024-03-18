@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+const dictionaryTag = "duotrigordle.20240309"
+
 func FormatResponse(word string, response Response) string {
 	var b strings.Builder
 	for i, c := range word {
@@ -33,13 +35,8 @@ func FormatGuesses(guesses []string, solution string) string {
 	return strings.Join(r, " ")
 }
 
-func ReadDictionary(path string, requiredLength int) []string {
-	exe, err := os.Executable()
-	if err != nil {
-		log.Fatalln(err)
-	}
-	absolutePath := filepath.Join(filepath.Dir(exe), path)
-	f, err := os.Open(absolutePath)
+func ReadDictionary(path string) []string {
+	f, err := os.Open(path)
 	if err != nil {
 		log.Fatalln(err)
 	}
@@ -49,10 +46,10 @@ func ReadDictionary(path string, requiredLength int) []string {
 	scanner := bufio.NewScanner(f)
 	for scanner.Scan() {
 		s := strings.ToUpper(scanner.Text())
-		if len(s) == requiredLength {
+		if len(s) == Length {
 			ret = append(ret, s)
 		} else {
-			log.Fatalf("Unexpected line in dictionary, len %d", len(s))
+			log.Fatalf("Unexpected dictionary entry, len %d", len(s))
 		}
 	}
 	if err := scanner.Err(); err != nil {
@@ -61,9 +58,18 @@ func ReadDictionary(path string, requiredLength int) []string {
 	return ret
 }
 
-func LoadDictionaries(pathGuesses string, pathSolutions string) ([]string, []string) {
-	dictGuesses := ReadDictionary(pathGuesses, Length)
-	dictSolutions := ReadDictionary(pathSolutions, Length)
+func LoadDictionaries() ([]string, []string) {
+	exe, err := os.Executable()
+	if err != nil {
+		log.Fatalln(err)
+	}
+	exePath := filepath.Dir(exe)
+
+	pathGuesses := filepath.Join(exePath, "data", dictionaryTag, "guesses.txt")
+	pathSolutions := filepath.Join(exePath, "data", dictionaryTag, "solutions.txt")
+
+	dictGuesses := ReadDictionary(pathGuesses)
+	dictSolutions := ReadDictionary(pathSolutions)
 
 	fmt.Printf("Dictionaries: %d valid guesses, %d solutions\n", len(dictGuesses), len(dictSolutions))
 

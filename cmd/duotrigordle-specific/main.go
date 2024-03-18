@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	dictGuesses, dictSolutions := internal.LoadDictionaries("data/guesses.duotrigordle.20240309.txt", "data/solutions.duotrigordle.20240309.txt")
+	dictGuesses, dictSolutions := internal.LoadDictionaries()
 
 	var guesses []string
 	for _, arg := range os.Args[1:] {

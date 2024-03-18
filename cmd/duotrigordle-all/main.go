@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	dictGuesses, dictSolutions := internal.LoadDictionaries("data/guesses.duotrigordle.20240309.txt", "data/solutions.duotrigordle.20240309.txt")
+	dictGuesses, dictSolutions := internal.LoadDictionaries()
 
 	// test every guess against all possible solutions (dictGuesses)
 	// build map counting number of solutions for each response
